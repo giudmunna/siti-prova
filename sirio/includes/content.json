@@ -1,0 +1,60 @@
+{
+  "site": {
+    "name": "Sirio Fit & Dance - Alcamo",
+    "tagline": "Scuola di Danza e Fitness",
+    "email": "info@sirioalcamo.it",
+    "phone": "123 456 7890",
+    "address": "Via Alessandro Pertini 16, Alcamo (TP)"
+  },
+
+  "home": {
+    "hero_title": "Sirio Fit & Dance",
+    "hero_subtitle": "Passione • Movimento • Energia",
+    "hero_button": "Scopri i nostri corsi"
+  },
+
+  "chi_siamo": {
+    "title": "Chi Siamo",
+    "text": "La Sirio Fit & Dance di Alcamo è una scuola di danza e fitness attiva da anni sul territorio. Offriamo corsi di alto livello sia amatoriali che agonistici, con insegnanti qualificati e un ambiente accogliente e motivante."
+  },
+
+  "corsi": {
+    "title": "I Nostri Corsi",
+    "lista": [
+      {
+        "titolo": "Danza Caraibica",
+        "descrizione": "Salsa, Bachata, Merengue, Kizomba"
+      },
+      {
+        "titolo": "Hip Hop & Street Dance",
+        "descrizione": "Per bambini, ragazzi e adulti"
+      },
+      {
+        "titolo": "Pole Dance",
+        "descrizione": "Livelli Base • Intermedio • Avanzato"
+      },
+      {
+        "titolo": "Pilates & Fitness",
+        "descrizione": "Tonificazione, Posturale e Benessere"
+      },
+      {
+        "titolo": "Ginnastica Artistica",
+        "descrizione": "Per bambini e ragazzi"
+      }
+    ]
+  },
+
+  "galleria": {
+    "title": "Galleria"
+  },
+
+  "eventi": {
+    "title": "Eventi & Spettacoli",
+    "text": "Scopri i prossimi eventi, stage e spettacoli della Sirio Fit & Dance."
+  },
+
+  "contatti": {
+    "title": "Contattaci",
+    "button": "Invia Messaggio"
+  }
+}
