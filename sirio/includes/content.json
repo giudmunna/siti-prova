@@ -1,0 +1,224 @@
+{
+  "site": {
+    "name": "Sirio Fit & Dance - Alcamo",
+    "legal_name": "SIRIO SSD ARL",
+    "tagline": "Scuola di Danza e Fitness",
+    "email": "SIRIOSSDARL@GMAIL.COM",
+    "phone_mobile": "379 1420911",
+    "phone_landline": "0924 040296",
+    "address": "Via A. Pertini, 16 — 91011 Alcamo (TP)",
+    "vat": "02877410817"
+  },
+
+  "home": {
+    "hero_title": "Sirio Fit & Dance",
+    "hero_subtitle": "Passione • Movimento • Energia",
+    "hero_button": "Scopri i nostri corsi"
+  },
+
+  "chi_siamo": {
+    "title": "Chi Siamo",
+    "text": "La Sirio Fit & Dance di Alcamo è una scuola di danza e fitness attiva da anni sul territorio. Offriamo corsi di alto livello sia amatoriali che agonistici, con insegnanti qualificati e un ambiente accogliente e motivante."
+  },
+
+  "corsi": {
+    "title": "I Nostri Corsi",
+    "categorie": {
+      "fitness": "Fitness e benessere",
+      "danza": "Danza",
+      "sport": "Sport e arti marziali"
+    },
+    "lista": [
+      {
+        "slug": "funzionale",
+        "categoria": "fitness",
+        "titolo": "Funzionale",
+        "descrizione": "Allenamento a circuito per forza, resistenza e mobilità: sessioni intense adatte a tutti i livelli.",
+        "immagine": "assets/img/corsi/funzionale.svg",
+        "disponibile": true,
+        "anteprima_orari": "Lun–Sab · più fasce giornaliere",
+        "orari_settimana": [
+          { "giorno": "Lunedì", "fasce": ["07:30", "08:30", "18:00", "20:00"] },
+          { "giorno": "Martedì", "fasce": ["13:15", "20:15"] },
+          { "giorno": "Mercoledì", "fasce": ["07:30", "08:30", "18:00", "20:00"] },
+          { "giorno": "Giovedì", "fasce": ["13:15", "20:15"] },
+          { "giorno": "Venerdì", "fasce": ["07:30", "08:30", "19:00", "20:00"] },
+          { "giorno": "Sabato", "fasce": ["13:15"] }
+        ]
+      },
+      {
+        "slug": "ginnastica-corpo-libero",
+        "categoria": "fitness",
+        "titolo": "Ginnastica Corpo Libero",
+        "descrizione": "Esercizi a corpo libero per tonificare, migliorare la postura e aumentare la consapevolezza del movimento.",
+        "immagine": "assets/img/corsi/ginnastica-corpo-libero.svg",
+        "disponibile": true,
+        "anteprima_orari": "Lun–Ven · mattina e sera",
+        "orari_settimana": [
+          { "giorno": "Lunedì", "fasce": ["09:00", "11:00"] },
+          { "giorno": "Martedì", "fasce": ["18:00"] },
+          { "giorno": "Mercoledì", "fasce": ["09:00", "11:00"] },
+          { "giorno": "Giovedì", "fasce": ["18:00"] },
+          { "giorno": "Venerdì", "fasce": ["09:00"] }
+        ]
+      },
+      {
+        "slug": "ginnastica-dolce",
+        "categoria": "fitness",
+        "titolo": "Ginnastica Dolce",
+        "descrizione": "Movimento dolce e progressivo, ideale per ritrovare elasticità e benessere articolare.",
+        "immagine": "assets/img/corsi/ginnastica-dolce.svg",
+        "disponibile": true,
+        "anteprima_orari": "Lun e Mer · 10:00",
+        "orari_settimana": [
+          { "giorno": "Lunedì", "fasce": ["10:00"] },
+          { "giorno": "Mercoledì", "fasce": ["10:00"] }
+        ]
+      },
+      {
+        "slug": "pilates",
+        "categoria": "fitness",
+        "titolo": "Pilates",
+        "descrizione": "Controllo, respirazione e core stability per un corpo forte, allineato e sciolto.",
+        "immagine": "assets/img/corsi/pilates.svg",
+        "disponibile": true,
+        "anteprima_orari": "Mar e Gio · mattina e sera",
+        "orari_settimana": [
+          { "giorno": "Martedì", "fasce": ["10:00", "19:00"] },
+          { "giorno": "Giovedì", "fasce": ["10:00", "19:00"] }
+        ]
+      },
+      {
+        "slug": "total-body",
+        "categoria": "fitness",
+        "titolo": "Total Body",
+        "descrizione": "Workout completo che coinvolge tutti i distretti muscolari con intensità modulabile.",
+        "immagine": "assets/img/corsi/total-body.svg",
+        "disponibile": true,
+        "anteprima_orari": "Mar–Ven · pomeriggio/sera",
+        "orari_settimana": [
+          { "giorno": "Martedì", "fasce": ["16:00", "17:00"] },
+          { "giorno": "Mercoledì", "fasce": ["19:00"] },
+          { "giorno": "Giovedì", "fasce": ["16:00", "17:00"] },
+          { "giorno": "Venerdì", "fasce": ["18:00"] }
+        ]
+      },
+      {
+        "slug": "stretching",
+        "categoria": "fitness",
+        "titolo": "Stretching",
+        "descrizione": "Sessioni dedicate alla flessibilità, al recupero muscolare e alla prevenzione degli infortuni.",
+        "immagine": "assets/img/corsi/stretching.svg",
+        "disponibile": true,
+        "anteprima_orari": "Venerdì · 11:00 e 13:15",
+        "orari_settimana": [
+          { "giorno": "Venerdì", "fasce": ["11:00", "13:15"] }
+        ]
+      },
+      {
+        "slug": "gag",
+        "categoria": "fitness",
+        "titolo": "G.A.G.",
+        "descrizione": "Ginnastica di mantenimento per glutei, addome e gambe: tonicità e resistenza mirata.",
+        "immagine": "assets/img/corsi/gag.svg",
+        "disponibile": true,
+        "anteprima_orari": "Venerdì · 18:00 e 19:00",
+        "orari_settimana": [
+          { "giorno": "Venerdì", "fasce": ["18:00", "19:00"] }
+        ]
+      },
+      {
+        "slug": "predanza",
+        "categoria": "danza",
+        "titolo": "Predanza",
+        "descrizione": "Primi passi nella danza per i più piccoli: gioco, musicalità e movimento consapevole.",
+        "immagine": "assets/img/corsi/predanza.svg",
+        "disponibile": true,
+        "anteprima_orari": "Lun e Mer · 16:15",
+        "orari": [
+          { "giorni": "Lunedì, Mercoledì", "orario": "16:15", "livello": "Bambini" }
+        ]
+      },
+      {
+        "slug": "danza",
+        "categoria": "danza",
+        "titolo": "Danza",
+        "descrizione": "Tecnica e coreografie per crescere nella danza classica e contemporanea.",
+        "immagine": "assets/img/corsi/danza.svg",
+        "disponibile": true,
+        "anteprima_orari": "Lun e Mer · 17:15",
+        "orari": [
+          { "giorni": "Lunedì, Mercoledì", "orario": "17:15", "livello": "Ragazzi e adulti" }
+        ]
+      },
+      {
+        "slug": "caraibico",
+        "categoria": "danza",
+        "titolo": "Caraibico (Bachata e Salsa)",
+        "descrizione": "Bachata e salsa per adulti e giovani: ritmo caraibico, coppia e movimento per tutti i livelli.",
+        "immagine": "assets/img/corsi/caraibico.svg",
+        "disponibile": true,
+        "anteprima_orari": "Adulti Lun/Mer · Giovani Mar/Gio",
+        "orari": [
+          { "giorni": "Lunedì, Mercoledì", "orario": "08:30 – 09:30", "livello": "Adulti · Base" },
+          { "giorni": "Lunedì, Mercoledì", "orario": "09:15 – 10:15", "livello": "Adulti · Intermedio" },
+          { "giorni": "Martedì, Giovedì", "orario": "08:30 – 09:30", "livello": "Giovani · Base" },
+          { "giorni": "Martedì, Giovedì", "orario": "09:15 – 10:15", "livello": "Giovani · Intermedio" },
+          { "giorni": "Martedì, Giovedì", "orario": "10:15 – 11:15", "livello": "Giovani · Avanzato" }
+        ]
+      },
+      {
+        "slug": "hip-hop",
+        "categoria": "danza",
+        "titolo": "Hip Hop",
+        "descrizione": "Street dance per piccoli e grandi: ritmo, freestyle e coreografie moderne.",
+        "immagine": "assets/img/corsi/hip-hop.svg",
+        "disponibile": true,
+        "anteprima_orari": "Mar e Gio · 16:30 / 17:30",
+        "orari": [
+          { "giorni": "Martedì, Giovedì", "orario": "16:30", "livello": "Piccoli" },
+          { "giorni": "Martedì, Giovedì", "orario": "17:30", "livello": "Grandi" }
+        ]
+      },
+      {
+        "slug": "pole-dance",
+        "categoria": "danza",
+        "titolo": "Pole Dance",
+        "descrizione": "Forza, eleganza e acrobazie sulla vertical: percorsi per ogni livello di esperienza.",
+        "immagine": "assets/img/corsi/pole-dance.svg",
+        "disponibile": true,
+        "anteprima_orari": "Mar e Gio · 20:30 / 21:30",
+        "orari": [
+          { "giorni": "Martedì, Giovedì", "orario": "20:30", "livello": "Intermedio" },
+          { "giorni": "Martedì, Giovedì", "orario": "21:30", "livello": "Avanzato" }
+        ]
+      },
+      {
+        "slug": "judo",
+        "categoria": "sport",
+        "titolo": "Judo",
+        "descrizione": "Disciplina marziale per bambini e ragazzi: tecnica, rispetto e coordinazione.",
+        "immagine": "assets/img/corsi/judo.svg",
+        "disponibile": true,
+        "anteprima_orari": "Lun e Mer",
+        "orari": [
+          { "giorni": "Lunedì, Mercoledì", "orario": "In programma", "livello": "Tutti i livelli" }
+        ]
+      }
+    ]
+  },
+
+  "galleria": {
+    "title": "Galleria"
+  },
+
+  "eventi": {
+    "title": "Eventi & Spettacoli",
+    "text": "Scopri i prossimi eventi, stage e spettacoli della Sirio Fit & Dance."
+  },
+
+  "contatti": {
+    "title": "Contattaci",
+    "button": "Invia Messaggio"
+  }
+}
