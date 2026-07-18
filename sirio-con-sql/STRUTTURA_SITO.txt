@@ -1,0 +1,349 @@
+================================================================================
+  SIRIO FIT & DANCE — ALCAMO
+  Guida alla struttura del sito, pagine e logiche implementate
+================================================================================
+
+1. PANORAMICA GENERALE
+--------------------------------------------------------------------------------
+
+Il sito è un'applicazione web in PHP senza framework, pensata per la scuola
+di danza e fitness "Sirio Fit & Dance" ad Alcamo (SIRIO SSD ARL).
+
+Tecnologie principali:
+  - PHP (pagine server-side)
+  - HTML/CSS (layout e stile in assets/css/style.css)
+  - JavaScript leggero (assets/js/script.js)
+  - Dati statici in JSON (contenuti e corsi)
+  - Area amministrativa separata in /admin per gestire gli eventi
+
+Non c'è un database: i testi del sito e l'elenco corsi vivono in
+includes/content.json; gli eventi pubblici sono salvati in admin/events.json.
+
+
+2. ALBERO DELLE CARTELLE
+--------------------------------------------------------------------------------
+
+sirio/
+├── index.php              → Home
+├── chi-siamo.php          → Pagina istituzionale
+├── corsi.php              → Elenco corsi
+├── corso.php              → Dettaglio singolo corso (dinamico)
+├── galleria.php           → Galleria fotografica
+├── eventi.php             → Calendario eventi
+├── contatti.php           → Contatti + form
+├── invia.php              → Handler invio email del form
+├── header.php             → Intestazione e menu (incluso da tutte le pagine)
+├── footer.php             → Piè di pagina e script JS
+├── config.php             → Email destinatario form contatti
+│
+├── includes/
+│   ├── functions.php      → Funzioni PHP condivise + caricamento content.json
+│   ├── content.json       → Tutti i testi, dati sede, elenco corsi e orari
+│   ├── course-card.php    → Componente riutilizzabile: card di un corso
+│   └── schedule.php       → Visualizzazione orari di un corso
+│
+├── assets/
+│   ├── css/style.css      → Stili del sito pubblico
+│   ├── js/script.js       → Menu mobile, lightbox galleria, alert form
+│   └── img/               → Immagini hero, about, icone corsi, galleria
+│
+└── admin/                 → Pannello amministratore eventi
+    ├── index.php          → Login
+    ├── dashboard.php      → Lista eventi salvati
+    ├── add-event.php      → Form nuovo evento
+    ├── logout.php         → Uscita sessione
+    ├── events.json        → Archivio eventi (scritto dall'admin)
+    ├── assets/admin.css   → Stili area admin
+    └── includes/
+        ├── auth.php       → Controllo sessione login
+        ├── events.php     → Lettura/scrittura/validazione eventi
+        ├── layout-top.php → Header admin
+        └── layout-bottom.php → Chiusura layout admin
+
+
+3. PAGINE PUBBLICHE — A COSA SERVONO
+--------------------------------------------------------------------------------
+
+3.1 index.php (HOME)
+  Scopo: pagina di ingresso e presentazione della scuola.
+  Contenuto:
+    - Hero con titolo, sottotitolo e pulsanti verso corsi e contatti
+    - Griglia con tutte le card dei corsi (stesso componente delle altre pagine)
+    - Sezione "Perché scegliere Sirio" con punti di forza e link a Chi Siamo
+    - Call-to-action finale per contattare la scuola
+  Dati: letti da content.json (chiavi home, chi_siamo, corsi).
+
+3.2 chi-siamo.php (CHI SIAMO)
+  Scopo: raccontare la scuola, metodo e valori.
+  Contenuto:
+    - Titolo e testo descrittivo da content.json → chi_siamo
+    - Lista di caratteristiche (lezioni tutto l'anno, età, insegnanti, ambiente)
+    - Pulsante verso contatti
+  Dati: principalmente content.json → chi_siamo.
+
+3.3 corsi.php (CORSI)
+  Scopo: catalogo completo dei corsi offerti.
+  Contenuto:
+    - Titolo da content.json → corsi.title
+    - Griglia di card senza immagini (variante compatta del componente course-card)
+  Logica: per ogni elemento in content.json → corsi.lista viene incluso
+          includes/course-card.php con flag $noCardImage = true.
+
+3.4 corso.php (DETTAGLIO CORSO)
+  Scopo: pagina dedicata a un singolo corso con descrizione e orari.
+  URL: corso.php?slug=nome-corso  (es. corso.php?slug=pilates)
+  Logica:
+    - Legge il parametro GET slug
+    - Cerca il corso con getCorsoBySlug() in content.json
+    - Se non trovato → HTTP 404 e messaggio "Corso non trovato"
+    - Se trovato → mostra immagine, titolo, descrizione, stato iscrizioni,
+      tabella/griglia orari (includes/schedule.php), link a contatti
+  Parametro utile: contatti.php?corso=slug precompila l'oggetto del form.
+
+3.5 galleria.php (GALLERIA)
+  Scopo: mostrare foto di sala, lezioni e spettacoli.
+  Logica:
+    - Scansiona automaticamente assets/img/galleria/ con glob()
+    - Accetta jpg, jpeg, png, webp, gif, svg
+    - Se la cartella è vuota → messaggio che invita a caricare file
+    - Le immagini sono cliccabili: JS apre un lightbox a schermo intero
+  Nota: per aggiungere foto basta copiare file nella cartella galleria;
+        non serve modificare PHP o JSON.
+
+3.6 eventi.php (EVENTI)
+  Scopo: elencare stage, spettacoli e appuntamenti della scuola.
+  Contenuto:
+    - Titolo e testo introduttivo da content.json → eventi
+    - Lista eventi da admin/events.json (ordinati per data)
+    - Se non ci sono eventi → messaggio "In aggiornamento" + link contatti
+  Logica: usa le funzioni in admin/includes/events.php (condivise con l'admin).
+
+3.7 contatti.php (CONTATTI)
+  Scopo: dati della sede e modulo per scrivere alla scuola.
+  Contenuto:
+    - Ragione sociale, indirizzo, telefoni (link tel:), email, P.IVA
+    - Form POST verso invia.php (nome, email, oggetto, messaggio)
+  Logica extra:
+    - Se l'URL contiene ?corso=slug, l'oggetto del form viene precompilato
+      con "Info corso: [titolo]" (utile dal dettaglio corso).
+
+3.8 invia.php (INVIO MESSAGGIO)
+  Scopo: elaborare il form contatti (non è una pagina visibile).
+  Logica:
+    - Accetta solo richieste POST
+    - Sanitizza nome, email, oggetto e messaggio
+    - Invia email con mail() all'indirizzo in config.php → EMAIL_DESTINATARIO
+    - Reindirizza a contatti.php?status=success oppure ?status=error
+  Frontend: script.js mostra un alert in base al parametro status nell'URL.
+
+
+4. COMPONENTI CONdivisi (HEADER / FOOTER / INCLUDE)
+--------------------------------------------------------------------------------
+
+4.1 header.php
+  - Carica includes/functions.php (che carica content.json in $content)
+  - Carica config.php
+  - Imposta la voce di menu attiva confrontando il nome file corrente
+  - Menu: Home, Chi Siamo, Corsi, Galleria, Eventi, Contatti
+  - Hamburger per mobile (gestito da script.js)
+  - Apre il tag <main id="contenuto">
+
+4.2 footer.php
+  - Chiude </main>
+  - Mostra indirizzo, telefoni, email, P.IVA dal JSON
+  - Include assets/js/script.js
+
+4.3 includes/course-card.php
+  Componente riutilizzabile per una card corso.
+  Variabili attese: $corso (array), opzionale $noCardImage (bool).
+  Comportamento:
+    - Con immagine: link intero a corso.php?slug=...
+    - Senza immagine: titolo/descrizione + link solo se disponibile=true
+    - Etichetta CTA: "Info e orari" se disponibile, altrimenti "Prossimamente"
+
+4.4 includes/schedule.php
+  Mostra gli orari del corso passato in $corso.
+  Due formati supportati nel JSON:
+    A) orari_settimana → griglia per giorno con fasce orarie (es. "18:00")
+    B) orari → tabella classica con colonne Giorni, Orario, Livello
+  Se mancano entrambi → messaggio "orari pubblicati a breve".
+
+
+5. DATI — content.json
+--------------------------------------------------------------------------------
+
+File centrale per tutto ciò che non sono gli eventi dinamici.
+
+Sezioni principali:
+  site          → nome, ragione sociale, tagline, email, telefoni,
+                  indirizzo, partita IVA
+  home          → testi hero homepage
+  chi_siamo     → titolo e paragrafo pagina Chi Siamo
+  corsi         → titolo pagina, etichette categorie, lista corsi
+  galleria      → titolo pagina Galleria
+  eventi        → titolo e testo intro pagina Eventi
+  contatti      → titolo e etichetta pulsante form
+
+Ogni corso in corsi.lista contiene:
+  slug            → identificativo URL (univoco)
+  categoria       → fitness | danza | sport (per raggruppamento futuro)
+  titolo          → nome visualizzato
+  descrizione     → testo breve
+  immagine        → percorso file in assets/img/corsi/
+  disponibile     → true/false: iscrizioni aperte o "prossimamente"
+  anteprima_orari → testo sintetico (opzionale, per card)
+  orari_settimana → array giorno + fasce (formato preferito)
+  orari           → array alternativo tabellare (giorni, orario, livello)
+
+Corsi attualmente definiti (13):
+  Funzionale, Ginnastica Corpo Libero, Ginnastica Dolce, Pilates, Total Body,
+  Stretching, GAG, Pre-danza, Danza, Caraibico, Hip Hop, Pole Dance, Judo.
+
+Per aggiungere o modificare un corso si edita content.json (e opzionalmente
+si aggiunge un'immagine SVG/PNG in assets/img/corsi/).
+
+
+6. FUNZIONI PHP — includes/functions.php
+--------------------------------------------------------------------------------
+
+getContent()
+  Legge e decodifica includes/content.json; ritorna array vuoto se assente.
+
+getCorsoBySlug($content, $slug)
+  Cerca un corso per slug; ritorna array corso o null.
+
+corsiByCategoria($content)
+  Raggruppa i corsi per chiave categoria (funzione disponibile, usata se serve
+  filtri per categoria in futuro).
+
+corsoUrl($corso)
+  Genera l'URL corso.php?slug=...
+
+corsoHasSchedule($corso)
+  Verifica se il corso ha orari definiti.
+
+phoneTel($number)
+  Normalizza un numero di telefono per link tel: (prefisso +39 se necessario).
+
+Alla fine del file viene eseguito $content = getContent() così ogni pagina
+che include functions.php ha già l'array $content disponibile.
+
+
+7. CONFIGURAZIONE — config.php
+--------------------------------------------------------------------------------
+
+Definisce la costante EMAIL_DESTINATARIO usata da invia.php per ricevere
+i messaggi del form contatti (attualmente: SIRIOSSDARL@GMAIL.COM).
+
+Per cambiare destinatario email basta modificare questo file.
+
+
+8. AREA AMMINISTRATIVA — /admin
+--------------------------------------------------------------------------------
+
+8.1 Scopo
+  Permettere al gestore della scuola di pubblicare eventi senza toccare codice.
+  Gli eventi inseriti compaiono automaticamente su eventi.php.
+
+8.2 Flusso autenticazione
+  admin/index.php     → form login (sessione PHP)
+  Credenziali hardcoded nel file (username admin / password sirio2026)
+                        ATTENZIONE: andrebbero cambiate in produzione!
+  Login OK            → $_SESSION['admin_logged'] = true → dashboard.php
+  admin/logout.php    → distrugge sessione → torna al login
+  admin/includes/auth.php → admin_require_login() protegge dashboard e add-event
+
+8.3 dashboard.php
+  - Elenco eventi da events.json ordinati per data
+  - Avviso se events.json non è scrivibile dal server web
+  - Link per aggiungere evento e aprire eventi.php sul sito pubblico
+
+8.4 add-event.php
+  - Form: titolo, data (input type=date), descrizione, luogo
+  - Validazione lato server (admin_validate_event_input)
+  - Salvataggio con admin_add_event() → append su events.json con id univoco
+  - Redirect a dashboard?saved=1 dopo successo
+
+8.5 admin/includes/events.php
+  Funzioni condivise tra admin e sito pubblico:
+    admin_load_events()      → legge JSON eventi
+    admin_save_events()      → scrive JSON con lock
+    admin_add_event()        → aggiunge evento e riordina per data
+    admin_validate_event_input() → controlli campi obbligatori e formato data
+    admin_format_event_date()    → formatta data in dd/mm/yyyy per la vista
+    admin_events_is_writable()   → verifica permessi file
+
+8.6 Struttura di un evento in events.json
+  {
+    "id": "evt_...",
+    "title": "Titolo",
+    "date": "2026-06-15",
+    "description": "Testo lungo",
+    "location": "Luogo",
+    "created_at": "2026-05-31T12:00:00+00:00"
+  }
+
+
+9. JAVASCRIPT — assets/js/script.js
+--------------------------------------------------------------------------------
+
+  - Menu hamburger: toggle classe .active su .nav-links per mobile
+  - Lightbox galleria: click su img.js-lightbox → overlay fullscreen
+  - Form contatti: legge ?status=success|error e mostra alert, poi pulisce URL
+
+Non ci sono librerie esterne JS oltre a Font Awesome (icone) e Google Fonts.
+
+
+10. FLUSSI UTENTE PRINCIPALI
+--------------------------------------------------------------------------------
+
+10.1 Scoprire un corso e contattare
+  Home/Corsi → card corso → corso.php?slug=... → "Richiedi informazioni"
+  → contatti.php?corso=slug (oggetto precompilato) → invia.php → email
+
+10.2 Consultare gli eventi
+  Menu Eventi → eventi.php legge admin/events.json
+  (gli eventi vengono creati dall'admin in /admin/add-event.php)
+
+10.3 Aggiornare contenuti statici
+  Modificare includes/content.json (testi, corsi, orari, telefoni)
+  Ricaricare la pagina nel browser
+
+10.4 Aggiungere foto in galleria
+  Copiare immagini in assets/img/galleria/
+  Aprire galleria.php (lettura automatica)
+
+
+11. NOTE TECNICHE E MANUTENZIONE
+--------------------------------------------------------------------------------
+
+  - Server consigliato: Apache/PHP (es. XAMPP/LAMPP) con funzione mail()
+    configurata per l'invio del form contatti.
+  - Permessi: la cartella/file admin/events.json deve essere scrivibile
+    dall'utente del web server (es. www-data) per salvare eventi.
+  - Sicurezza admin: password in chiaro in admin/index.php; in produzione
+    usare credenziali robuste e idealmente hash + database o file protetto.
+  - Nessun CMS: aggiornamenti manuali a JSON e upload immagini in cartelle.
+  - Le pagine usano htmlspecialchars() per output sicuro contro XSS.
+  - corso.php risponde 404 se lo slug non esiste.
+
+
+12. RIEPILOGO RAPIDO FILE → FUNZIONE
+--------------------------------------------------------------------------------
+
+  index.php         Landing e anteprima corsi
+  chi-siamo.php     Presentazione scuola
+  corsi.php         Lista completa corsi
+  corso.php         Dettaglio + orari singolo corso
+  galleria.php      Foto automatiche da cartella
+  eventi.php        Eventi da JSON admin
+  contatti.php      Dati sede + form
+  invia.php         Invio email form
+  header/footer     Layout comune
+  content.json      Contenuti e corsi
+  events.json       Eventi dinamici
+  admin/*           Gestione eventi protetta da login
+
+================================================================================
+  Documento generato per il progetto Sirio — /opt/lampp/htdocs/sirio
+================================================================================
